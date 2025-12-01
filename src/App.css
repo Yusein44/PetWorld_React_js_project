@@ -1,42 +1,139 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+:root {
+    --primary-color: #ffb347; 
+    --secondary-color: #2c3e50;
+    --background-color: #f4f7f6;
+    --text-color: #333;
+    --white: #ffffff;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+* {
+    box-sizing: border-box;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body {
+    font-family: 'Nunito', sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+#box {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    width: 100%;       
 }
 
-.card {
-  padding: 2em;
+header, footer {
+    width: 100%;
 }
 
-.read-the-docs {
-  color: #888;
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto;    
+    padding: 20px;
+}
+
+header {
+    background-color: var(--secondary-color);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+    color: var(--white);
+    font-size: 24px;
+}
+
+header nav {
+    display: flex;
+    gap: 20px; 
+}
+
+header nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+header nav a:hover {
+    color: var(--primary-color);
+}
+
+/* --- Footer --- */
+footer {
+    background-color: var(--secondary-color);
+    color: #bdc3c7;
+    text-align: center;
+    padding: 10px 0; /* Намален падинг: само 10px отгоре и отдолу */
+    width: 100%;
+    margin-top: auto; /* Гарантира, че стои залепен долу */
+}
+
+/* ТОВА Е ВАЖНОТО: Махаме раздуването от текста */
+footer p {
+    margin: 0;       /* Нулираме външните отстояния */
+    padding: 0;
+    font-size: 14px; /* Малко по-ситни букви за по-стилен вид */
+}
+.auth {
+    max-width: 400px;
+    margin: 50px auto; 
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.auth h1 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.auth .container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.auth label {
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.auth input {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.auth .btn.submit {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.auth .btn.submit:hover {
+    background-color: #ffcc80;
+}
+
+.auth p {
+    margin-top: 10px;
 }

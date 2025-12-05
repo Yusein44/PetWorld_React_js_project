@@ -8,7 +8,8 @@ import Login from "./components/login/Login";
 import Register from './components/register/Register';
 import Catalog from "./components/catalog/Catalog";
 import Details from "./components/catalog/Details";
-
+import Create from "./components/create/Create";
+import Logout from "./components/logout/Logout";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/catalog" element={<Catalog />} />
                     <Route path="/catalog/:petId" element={<Details />} />
+                    <Route path="/create" element={<Create />} />
+                    <Route path="/logout" element={<Logout />} />
                 </Routes>
             </main>
 

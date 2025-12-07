@@ -1,8 +1,18 @@
+import { useNavigate } from 'react-router-dom'; 
+import * as petService from '../../services/petService'; 
 import useForm from '../../hooks/useForm';
 
 export default function Create() {
-    const createSubmitHandler = (values) => {
-        console.log("Create data:", values);
+    const navigate = useNavigate();
+
+    const createSubmitHandler = async (values) => {
+        try {
+            await petService.create(values);
+
+            navigate('/catalog');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const { values, onChange, onSubmit } = useForm(createSubmitHandler, {
@@ -15,12 +25,8 @@ export default function Create() {
     return (
         <section id="create-page">
             <div className="create-container">
-                {/* Лявата част: Картинка */}
-                <div className="create-side-image">
-                    {/* Няма нужда от <img> таг, ще сложим background image с CSS */}
-                </div>
+                <div className="create-side-image"></div>
 
-                {/* Дясната част: Формата */}
                 <div className="create-form-container">
                     <h1>Add a New Pet</h1>
                     <p>Share your best friend with the world!</p>

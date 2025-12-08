@@ -16,3 +16,8 @@ export const create = async (petData) => {
     const result = await request.post(baseUrl, petData);
     return result;
 };
+
+export const edit = async (petId, petData) => {
+    const result = await request.put(`${baseUrl}/${petId}`, petData);
+    return result;
+};

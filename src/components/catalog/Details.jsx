@@ -5,9 +5,9 @@ import * as petService from '../../services/petService';
 import AuthContext from '../../contexts/AuthContext';
 
 export default function Details() {
-    const { petId } = useParams(); 
-    const { userId } = useContext(AuthContext); 
-    const [pet, setPet] = useState({}); 
+    const { petId } = useParams();
+    const { userId } = useContext(AuthContext);
+    const [pet, setPet] = useState({});
 
     useEffect(() => {
         petService.getOne(petId)
@@ -43,6 +43,12 @@ export default function Details() {
             <div className="pet-description">
                 <h3>Description:</h3>
                 <p>{pet.description}</p>
+
+                <div className="back-btn-container">
+                    <Link to="/catalog" className="btn back-btn">
+                        &larr; Back to Catalog
+                    </Link>
+                </div>
             </div>
         </section>
     );

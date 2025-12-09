@@ -537,3 +537,17 @@ textarea {
     background-color: #bdc3c7;
     color: white;
 }
+
+.delete-button {
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    background-color: #e74c3c !important; 
+    color: white;
+    margin-left: 10px; 
+}
+
+.delete-button:hover {
+    background-color: #c0392b !important;
+}

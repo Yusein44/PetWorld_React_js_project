@@ -21,3 +21,8 @@ export const edit = async (petId, petData) => {
     const result = await request.put(`${baseUrl}/${petId}`, petData);
     return result;
 };
+
+export const remove = async (petId) => {
+    const result = await request.del(`${baseUrl}/${petId}`);
+    return result;
+};

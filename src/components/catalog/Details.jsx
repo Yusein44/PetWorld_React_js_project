@@ -1,10 +1,11 @@
 import { useEffect, useState, useContext } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom'; 
 
 import * as petService from '../../services/petService';
 import AuthContext from '../../contexts/AuthContext';
 
 export default function Details() {
+    const navigate = useNavigate(); 
     const { petId } = useParams();
     const { userId } = useContext(AuthContext);
     const [pet, setPet] = useState({});
@@ -13,13 +14,25 @@ export default function Details() {
         petService.getOne(petId)
             .then(result => {
                 setPet(result);
-            })
-            .catch(err => {
-                console.log(err);
             });
     }, [petId]);
 
     const isOwner = userId === pet._ownerId;
+
+    const deleteHandler = async () => {
+
+        const isConfirmed = confirm(`Are you sure you want to delete ${pet.name}?`);
+
+        if (isConfirmed) {
+            try {
+                await petService.remove(petId);
+    
+                navigate('/catalog');
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };
 
     return (
         <section id="details-page" className="details">
@@ -34,7 +47,7 @@ export default function Details() {
                     {isOwner && (
                         <>
                             <Link className="button" to={`/catalog/${petId}/edit`}>Edit</Link>
-                            <Link className="button" to={`/catalog/${petId}/delete`}>Delete</Link>
+                            <button className="button delete-button" onClick={deleteHandler}>Delete</button>
                         </>
                     )}
                 </div>

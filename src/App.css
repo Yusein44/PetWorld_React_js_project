@@ -551,3 +551,114 @@ textarea {
 .delete-button:hover {
     background-color: #c0392b !important;
 }
+
+.like-button {
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    background-color: #3498db !important; 
+    color: white;
+}
+
+.like-button:hover {
+    background-color: #2980b9 !important;
+}
+
+.liked-message {
+    font-style: italic;
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.likes-count {
+    margin-top: 15px;
+    font-size: 1.2em;
+    color: var(--secondary-color);
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.likes-count span {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: var(--primary-color);
+}
+
+.error-container {
+    background-color: #ffecec;
+    border: 1px solid #ff4d4d;
+    color: #d63031;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    animation: shake 0.5s; 
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+#profile-page {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.profile-header {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.profile-img img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid var(--primary-color);
+    padding: 5px;
+}
+
+.profile-info h2 {
+    margin: 0 0 10px 0;
+    color: var(--secondary-color);
+}
+
+.profile-info p {
+    font-size: 1.1em;
+    color: #555;
+    margin: 5px 0;
+}
+
+.profile-pets h3 {
+    border-left: 5px solid var(--primary-color);
+    padding-left: 15px;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.no-posts {
+    width: 100%;
+    text-align: center;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.no-posts p {
+    font-size: 1.2em;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}

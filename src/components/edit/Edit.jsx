@@ -1,19 +1,43 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 
 import * as petService from '../../services/petService';
 import useForm from "../../hooks/useForm";
+import AuthContext from "../../contexts/AuthContext";
 
 export default function Edit() {
     const navigate = useNavigate();
     const { petId } = useParams();
+    const { userId } = useContext(AuthContext);
     
+    const [showForm, setShowForm] = useState(false);
+    const [error, setError] = useState(''); 
+
     const editPetSubmitHandler = async (values) => {
+        
+        if (Object.values(values).some(v => v === '')) {
+            setError('All fields are required!');
+            return;
+        }
+
+        if (values.name.length < 2) {
+            setError('Name must be at least 2 characters long!');
+            return;
+        }
+
+        if (!values.imageUrl.startsWith('http')) {
+            setError('Image URL must start with http or https!');
+            return;
+        }
+
+        setError(''); 
+
         try {
             await petService.edit(petId, values);
             navigate(`/catalog/${petId}`);
         } catch (err) {
             console.log(err);
+            setError(err.message);
         }
     }
 
@@ -27,9 +51,21 @@ export default function Edit() {
     useEffect(() => {
         petService.getOne(petId)
             .then(result => {
-                changeValues(result);
+                if (userId !== result._ownerId) {
+                    navigate('/catalog'); 
+                } else {
+                    changeValues(result);
+                    setShowForm(true); 
+                }
+            })
+            .catch(err => {
+                console.log(err);
             });
-    }, [petId]);
+    }, [petId, userId]);
+
+    if (!showForm) {
+        return null;
+    }
 
     return (
         <section id="edit-page">
@@ -41,6 +77,13 @@ export default function Edit() {
                     <p>Update information about your friend</p>
 
                     <form id="edit" onSubmit={onSubmit}>
+                        
+                        {error && (
+                            <div className="error-container">
+                                <p>{error}</p>
+                            </div>
+                        )}
+
                         <div className="input-group">
                             <label htmlFor="name">Name</label>
                             <input

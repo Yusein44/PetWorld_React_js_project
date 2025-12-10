@@ -26,3 +26,10 @@ export const remove = async (petId) => {
     const result = await request.del(`${baseUrl}/${petId}`);
     return result;
 };
+
+export const getMyPets = async (userId) => {
+    const query = encodeURIComponent(`_ownerId="${userId}"`);
+    const result = await request.get(`${baseUrl}?where=${query}`);
+    
+    return Object.values(result);
+};

@@ -15,7 +15,11 @@ export default function Header() {
                     <div id="user">
                         <Link to="/create">Create Post</Link>
                         <Link to="/logout">Logout</Link>
-                        <span style={{color: 'white', marginLeft: '10px'}}>Hello, {userEmail}</span>
+                        <Link to="/profile" style={{textDecoration: 'none'}}>
+                            <span style={{color: 'white', marginLeft: '10px', cursor: 'pointer'}}>
+                                Hello, {userEmail}
+                            </span>
+                        </Link>
                     </div>
                 )}
 

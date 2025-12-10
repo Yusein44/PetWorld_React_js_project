@@ -1,17 +1,35 @@
-import { useNavigate } from 'react-router-dom'; 
-import * as petService from '../../services/petService'; 
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import * as petService from '../../services/petService';
 import useForm from '../../hooks/useForm';
 
 export default function Create() {
     const navigate = useNavigate();
+    const [error, setError] = useState(''); 
 
     const createSubmitHandler = async (values) => {
+        if (Object.values(values).some(v => v === '')) {
+            setError('All fields are required!');
+            return; 
+        }
+
+        if (values.name.length < 2) {
+            setError('Name must be at least 2 characters long!');
+            return;
+        }
+
+        if (!values.imageUrl.startsWith('http')) {
+            setError('Image URL must start with http or https!');
+            return;
+        }
+
+        setError('');
+
         try {
             await petService.create(values);
-
             navigate('/catalog');
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            setError(err.message); 
         }
     };
 
@@ -32,6 +50,12 @@ export default function Create() {
                     <p>Share your best friend with the world!</p>
 
                     <form id="create" onSubmit={onSubmit}>
+                        {error && (
+                            <div className="error-container">
+                                <p>{error}</p>
+                            </div>
+                        )}
+
                         <div className="input-group">
                             <label htmlFor="name">Name</label>
                             <input

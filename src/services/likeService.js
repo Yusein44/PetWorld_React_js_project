@@ -8,8 +8,8 @@ export const like = (petId) => {
 
 export const getPetLikes = (petId) => {
     const query = encodeURIComponent(`petId="${petId}"`);
-
-    return request.get(`${baseUrl}?where=${query}&distinct=_ownerId&count`);
+    
+    return request.get(`${baseUrl}?where=${query}&count`);
 };
 
 export const getMyLike = (petId, userId) => {

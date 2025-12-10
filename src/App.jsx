@@ -15,6 +15,7 @@ import Logout from "./components/logout/Logout";
 import AuthGuard from './components/common/AuthGuard';
 import GuestGuard from './components/common/GuestGuard';
 import Profile from "./components/profile/Profile";
+import NotFound from "./components/not-found/NotFound";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/logout" element={<Logout />} />
                     <Route path="/profile" element={<Profile />} />
                 </Route>
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </main>
 

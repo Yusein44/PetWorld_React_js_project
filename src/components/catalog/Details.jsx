@@ -3,34 +3,43 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 
 import * as petService from '../../services/petService';
 import * as likeService from '../../services/likeService';
+import * as commentService from '../../services/commentService';
 import AuthContext from '../../contexts/AuthContext';
 
 export default function Details() {
     const navigate = useNavigate();
     const { petId } = useParams();
-    const { userId, isAuthenticated } = useContext(AuthContext);
+    const { userId, isAuthenticated, userEmail } = useContext(AuthContext);
     
     const [pet, setPet] = useState({});
     const [totalLikes, setTotalLikes] = useState(0);
     const [hasLiked, setHasLiked] = useState(false);
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
 
     useEffect(() => {
         petService.getOne(petId)
-            .then(setPet);
+            .then(setPet)
+            .catch(err => console.log("Error pet:", err));
 
         likeService.getPetLikes(petId)
-            .then(setTotalLikes);
+            .then(result => {
+                setTotalLikes(result);
+            })
+            .catch(err => console.log("Error likes:", err));
 
-        if (isAuthenticated) {
+        commentService.getByPetId(petId)
+            .then(setComments)
+            .catch(err => setComments([]));
+
+        if (isAuthenticated && userId) {
             likeService.getMyLike(petId, userId)
                 .then(result => {
                     setHasLiked(result > 0);
-                });
+                })
+                .catch(err => console.log("Error my like:", err));
         }
     }, [petId, userId, isAuthenticated]);
-
-    console.log(`Current User: ${userId}`);
-    console.log(`Pet Owner: ${pet._ownerId}`);
 
     const isOwner = userId === pet._ownerId;
 
@@ -50,8 +59,23 @@ export default function Details() {
     const likeButtonHandler = async () => {
         try {
             await likeService.like(petId);
+       
             setTotalLikes(state => state + 1);
             setHasLiked(true);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const addCommentHandler = async (e) => {
+        e.preventDefault();
+        if(newComment.trim() === '') return;
+
+        try {
+            const result = await commentService.create(petId, newComment);
+            result.author = { email: userEmail }; 
+            setComments(state => [...state, result]);
+            setNewComment('');
         } catch (err) {
             console.log(err);
         }
@@ -63,9 +87,11 @@ export default function Details() {
                 <h3>Name: {pet.name}</h3>
                 <p className="type">Breed: {pet.breed}</p>
                 
-                <p className="img">
-                    <img src={pet.imageUrl} alt={pet.name} />
-                </p>
+                {pet.imageUrl && (
+                    <p className="img">
+                        <img src={pet.imageUrl} alt={pet.name} />
+                    </p>
+                )}
                 
                 <div className="actions">
                     {isOwner && (
@@ -92,6 +118,36 @@ export default function Details() {
             <div className="pet-description">
                 <h3>Description:</h3>
                 <p>{pet.description}</p>
+
+                <div className="details-comments">
+                    <h2>Comments:</h2>
+                    <ul>
+                        {comments.length > 0 ? (
+                            comments.map(c => (
+                                <li key={c._id} className="comment">
+                                    <p><strong>{c.author?.email || "User"}:</strong> {c.comment}</p>
+                                </li>
+                            ))
+                        ) : (
+                            <p className="no-comment">No comments yet.</p>
+                        )}
+                    </ul>
+                </div>
+
+                {isAuthenticated && (
+                    <article className="create-comment">
+                        <label>Add new comment:</label>
+                        <form className="form" onSubmit={addCommentHandler}>
+                            <textarea 
+                                name="comment" 
+                                placeholder="Comment......"
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                            ></textarea>
+                            <input className="btn submit-comment" type="submit" value="Add Comment" />
+                        </form>
+                    </article>
+                )}
 
                 <div className="back-btn-container">
                     <Link to="/catalog" className="btn back-btn">

@@ -33,3 +33,17 @@ export const getMyPets = async (userId) => {
     
     return Object.values(result);
 };
+
+export const search = async (searchText) => {
+    const query = encodeURIComponent(`name LIKE "${searchText}"`);
+    
+    const result = await request.get(`${baseUrl}?where=${query}`);
+    return Object.values(result);
+};
+
+export const getLatest = async () => {
+    const query = 'sortBy=_createdOn%20desc&offset=0&pageSize=3';
+    
+    const result = await request.get(`${baseUrl}?${query}`);
+    return result;
+};
